@@ -39,7 +39,7 @@ export const SongCard = ({
   }, [rating]);
 
   return (
-    <div className="bg-gradient-to-b from-black to-slate-900 h-fit w-fit rounded-sm text-white p-2">
+    <div className="bg-gradient-to-b from-black to-slate-900 h-fit w-fit rounded-xl text-white p-2 cursor-pointer transition-shadow duration-100 hover:shadow-2xl hover:shadow-slate-500/50">
       {coverSrc
         ?
         <img
@@ -61,7 +61,6 @@ export const SongCard = ({
           </span>
         </div>
       </div>
-
     </div>
   );
 };

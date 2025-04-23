@@ -1,17 +1,13 @@
-import { SongCard } from "./components/SongCard";
-import sampleSong from "./data/sample-song.json"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import Home from "./pages/Home"
 
 function App() {
   return (
-    <div>
-      <SongCard
-        name={sampleSong.name}
-        artist={sampleSong.artist}
-        rating={sampleSong.rating}
-        ratingCount={sampleSong.ratingCount}
-        coverSrc={sampleSong.coverSrc}
-      />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
