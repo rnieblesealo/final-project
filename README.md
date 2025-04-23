@@ -1,0 +1,13 @@
+### Checklist
+- [ ] Song card
+    - [x] Album cover
+    - [x] Song title
+    - [x] Amount of stars
+    - [x] Datatype for all these 
+- [x] Display song cards in homepage 
+- [ ] Song detail view
+    - [ ] Shows all the user reviews in order of creation
+    - [ ] Ratings distribution
+    - [ ] Genre of the song's artist
+    - [ ] Streaming link
+- [ ] Spotify search API to look up songs (to make review) 
