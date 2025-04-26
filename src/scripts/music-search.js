@@ -182,7 +182,7 @@ export async function getSpotifySongInfo(songName) {
     const params = new URLSearchParams({
       q: `track:${songName}`,
       type: "track",
-      limit: 5
+      limit: 3
     })
 
     // get response image url
@@ -195,6 +195,37 @@ export async function getSpotifySongInfo(songName) {
     return res.data.tracks.items;
   } catch (error) {
     console.error("Error searching Spotify: ", error)
+    return null;
+  }
+}
+
+export async function getSpotifyTrack(trackId) {
+  try {
+    // get api access token
+    const accessToken = await getAccessToken()
+
+    // abort if fail 
+    if (!accessToken) {
+      throw new Error()
+    }
+
+    // base url to track id contains all info we ened
+    const baseUrl = `https://api.spotify.com/v1/tracks/${trackId}`
+
+    // send auth to search api
+    const headers = {
+      "Authorization": `Bearer ${accessToken}`
+    }
+
+    // make req
+    const res = await axios.get(baseUrl, {
+      headers: headers,
+    })
+
+    // get data
+    return res.data
+  } catch (error) {
+    console.error("Error getting track: ", error)
     return null;
   }
 }

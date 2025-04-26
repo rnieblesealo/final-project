@@ -10,4 +10,17 @@
     - [ ] Ratings distribution
     - [ ] Genre of the song's artist
     - [ ] Streaming link
-- [ ] Spotify search API to look up songs (to make review) 
+
+- [x] Click on search result to go to review viewer screen
+    - Search Spotify API for song
+    - Get its metadata + ID
+    - Pass ID to search result prop
+    - Clicking on prop takes to detailview with ID as param
+    - Song info is directly fetched using song ID
+- [x] Create review button
+    - Takes us to review creation form page, a review has:
+        - Username
+        - Rating /10
+        - Creation date (done by supabase)
+        - Review content
+
