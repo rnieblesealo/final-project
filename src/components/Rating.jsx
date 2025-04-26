@@ -25,12 +25,7 @@ export const Rating = ({ rating, size }) => {
 
       // note there can only be 1 half star
       if (halfStars) {
-        stars.push(
-          <div key="halfstar" className="relative w-[16px] h-[16px]">
-            <FaStarHalf className="absolute z-2" />
-            <FaStar className="absolute text-gray-600 z-1" />
-          </div>
-        );
+        stars.push(<FaStarHalf key="halfstar" />)
       }
 
       // determine star size
@@ -42,7 +37,7 @@ export const Rating = ({ rating, size }) => {
       )
 
       return (
-        <div className={`${finalSize} flex justify-left my-1 text-white w-full h-full`}>
+        <div className={`${finalSize} flex items-center justify-left pb-2 text-white w-full h-full`}>
           {stars}
         </div>
       )

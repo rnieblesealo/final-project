@@ -61,21 +61,30 @@ export const CreateReview = () => {
   }
 
   // FIXME: rating div is extremely chopped, fix absolute positioning
+  //
+  // note the rating box needs a fixed size because we're calculating the position of the cursor from it
   const reviewOptions = songData &&
     <div className="flex flex-col items-center">
       <img src={songData.trackImage} className="w-60" />
 
-      <span>Review "{songData.trackName}" by {songData.trackArtistName}</span>
+      <div className="w-full flex flex-col items-center my-8">
+        <span className="text-2xl font-extrabold text-gray-500">
+          Review
+          <span className="text-white mx-2">{songData.trackName}</span>
+          by
+          <span className="text-white mx-2">{songData.trackArtistName}</span>
+        </span>
 
-      <div
-        onMouseMove={handleMouseMove}
-        className="text-4xl w-[180px] h-[50px] flex items-center">
-        <Rating rating={cursorPercent} />
+        <div
+          onMouseMove={handleMouseMove}
+          className="text-4xl w-[180px] h-[50px] flex items-center">
+          <Rating rating={cursorPercent} />
+        </div>
       </div>
 
       <textarea
         placeholder="Write your review here..."
-        className="w-full h-48 p-4 rounded-xl bg-gray-800 text-white text-lg resize-none overflow-y-auto focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-3/4 h-48 p-4 rounded-xl bg-gray-800 text-white text-lg resize-none overflow-y-auto focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
 
       <button
