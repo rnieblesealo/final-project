@@ -53,4 +53,17 @@ export async function getSession() {
   }
 }
 
+/// Sign out current user, return status
+export async function signOutUser() {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error('Error signing out:', error);
+    return false
+  } else {
+    console.log('Signed out successfully.');
+    return true
+  }
+}
+
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 
 import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
+import { FaEnvelope } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom"
 import { handleSignIn, handleSignUp, getSession } from "../scripts/client"
@@ -48,9 +49,25 @@ export const SignIn = () => {
           {shouldSignUp ? "Sign Up" : "Sign In"}
         </span>
 
+        {shouldSignUp &&
+          <div className="outline-2 outline-white rounded-2xl flex items-center p-4">
+            <label htmlFor="usernme" className="mr-2">
+              <FaUser />
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Username"
+              className="focus:outline-0 placeholder:text-gray-600"
+            />
+          </div>
+        }
+
         <div className="outline-2 outline-white rounded-2xl flex items-center p-4">
           <label htmlFor="email" className="mr-2">
-            <FaUser />
+            <FaEnvelope />
           </label>
           <input
             type="email"

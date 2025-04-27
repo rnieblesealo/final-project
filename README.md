@@ -23,7 +23,7 @@
         - Rating /10
         - Creation date (done by supabase)
         - Review content
-- [ ] Backend
+- [x] Backend
     - Auth
     - Please take care of auth
     - Please please implement auth

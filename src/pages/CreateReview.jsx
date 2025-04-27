@@ -8,6 +8,7 @@ export const CreateReview = () => {
   const params = useParams()
 
   const [songData, setSongData] = useState(null)
+  const [reviewData, setReviewData] = useState(null)
   const [cursorPercent, setCursorPercent] = useState(null)
 
   useEffect(() => {
@@ -27,17 +28,21 @@ export const CreateReview = () => {
         album: { images: [, { url: trackImage }] }
       } = await getSpotifyTrack(songId)
 
+      // set the song's data
       setSongData({
         trackId,
         trackName,
         trackArtistName,
         trackImage
       })
+
+      // also update review data to include track id
+      setReviewData((prev) => {
+        return { ...prev, trackId }
+      })
     }
 
     loadSongData()
-
-    console.log(cursorPercent)
   }, [params.songId, cursorPercent])
 
   // compute rating based on mouse position within stars rect
@@ -58,6 +63,22 @@ export const CreateReview = () => {
 
     // update your state
     setCursorPercent(rating);
+
+    // update review data as well
+    setReviewData((prev) => {
+      return { ...prev, rating }
+    })
+  }
+
+  function handleTextChange(e) {
+    setReviewData((prev) => {
+      return { ...prev, reviewText: e.target.value }
+    })
+  }
+
+  function handleCreatePost() {
+    // get session
+    // once we have session pull necessary info from it (uid, display name)
   }
 
   // FIXME: rating div is extremely chopped, fix absolute positioning
@@ -83,6 +104,7 @@ export const CreateReview = () => {
       </div>
 
       <textarea
+        onChange={handleTextChange}
         placeholder="Write your review here..."
         className="w-3/4 h-48 p-4 rounded-xl bg-gray-800 text-white text-lg resize-none overflow-y-auto focus:outline-none focus:ring-2 focus:ring-blue-500"
       />

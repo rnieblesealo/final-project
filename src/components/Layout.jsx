@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom"
 import { SearchBar } from "./SearchBar";
 import { useEffect } from "react"
-import { getSession } from "../scripts/client"
+import { getSession, signOutUser } from "../scripts/client"
 import { useNavigate } from "react-router-dom"
 
 export const Layout = () => {
@@ -20,9 +20,32 @@ export const Layout = () => {
     redirectIfNotSignedIn()
   }, [navigate])
 
+  // if user clicks sign out theyre signed out and taken back to signin screen
+  async function handleSignOut() {
+    const signedOut = await signOutUser()
+    if (signedOut) {
+      navigate("/signin")
+    }
+  }
+
   return (
     <div className="w-screen h-screen text-white">
-      <h1 className="text-white text-4xl text-center font-extrabold m-6">Home</h1>
+      <div className="w-full flex justify-center items-center relative">
+        <h1 className="relative w-full text-white text-4xl text-center font-extrabold m-6">Home</h1>
+
+        <div className="absolute flex items-center right-5">
+          <span className="right-10 font-bold mr-2 text-gray-500">
+            Logged in as
+            <span className="text-white mx-1">rnieblesealo</span>
+          </span>
+          <button
+            onClick={handleSignOut}
+            className="bg-red-700 font-bold text-sm rounded-lg p-2 cursor-pointer">
+            Sign Out
+          </button>
+        </div>
+
+      </div>
       <SearchBar />
       <Outlet />
     </div>
