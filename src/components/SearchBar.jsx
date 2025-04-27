@@ -1,9 +1,11 @@
 import { FaSearch } from "react-icons/fa";
 import { useState, useEffect } from "react"
 import { getSpotifySongInfo } from "../scripts/music-search"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export const SearchBar = () => {
+  const navigate = useNavigate()
+
   const [searchTerm, setSearchTerm] = useState("")
   const [searchResults, setSearchResults] = useState([])
 
@@ -41,10 +43,15 @@ export const SearchBar = () => {
   }, [searchTerm])
 
   const SearchResult = ({ songId, songName, artistName, coverSrc }) => {
+    function handleClick() {
+      setSearchTerm("")
+      navigate(`/view/${songId}`)
+    }
+
     return (
-      <Link
-        to={`/view/${songId}`}
-        className="w-full h-min border-1 rounded-lg p-3">
+      <button
+        onClick={handleClick}
+        className="w-full h-min border-1 rounded-lg p-3 cursor-pointer text-left">
         <div className="flex h-min">
           <img src={coverSrc} className="w-[64px] h-[64px] object-cover rounded-sm" />
           <div className="ml-2 flex flex-col">
@@ -52,7 +59,7 @@ export const SearchBar = () => {
             <span className="text-sm text-gray-500">{artistName}</span>
           </div>
         </div>
-      </Link>
+      </button>
     );
   };
 
