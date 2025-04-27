@@ -67,8 +67,8 @@ export const SearchBar = () => {
   ))
 
   return (
-    <div className="w-full flex justify-center mb-12">
-      <div className="flex-col justify-start items-center border-1 p-3 w-80 h-min rounded-lg">
+    <div className="w-full flex justify-center">
+      <div className="flex-col justify-start items-center border-1 p-3 w-80 h-min rounded-lg mb-4">
         <div className="w-full flex">
           <FaSearch className="ml-2 mr-4 text-xl" />
           <input
@@ -76,7 +76,7 @@ export const SearchBar = () => {
             id="name"
             name="name"
             size="10"
-            placeholder="Search for anything..."
+            placeholder="Search for a song..."
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full focus:outline-none placeholder:text-gray-500" />
         </div>

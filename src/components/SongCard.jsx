@@ -8,7 +8,7 @@ export const SongCard = ({
   return (
     <Link
       to={`/view/${trackId}`}
-      className="border-1 w-full h-min rounded-xl text-white p-2 cursor-pointer transition-shadow duration-100 hover:shadow-2xl hover:shadow-white/50">
+      className="border-1 w-full h-full rounded-xl text-white p-2 cursor-pointer transition-shadow duration-100 hover:shadow-2xl hover:shadow-white/50">
       {coverSrc
         ?
         <img

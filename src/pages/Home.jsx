@@ -63,8 +63,9 @@ export const Home = () => {
 
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="px-10 grid grid-cols-2 w-100 min-w-100">
+    <div className="flex flex-col items-center justify-center">
+      <h1 className="text-white text-3xl text-center font-extrabold mb-4">All Songs</h1>
+      <div className="px-10 grid grid-cols-2 w-100 min-w-100 gap-1">
         {songCards}
       </div>
     </div>
