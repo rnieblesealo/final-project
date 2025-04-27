@@ -44,7 +44,7 @@ export const SearchBar = () => {
     return (
       <Link
         to={`/view/${songId}`}
-        className="w-full h-min bg-slate-950 rounded-lg p-3">
+        className="w-full h-min border-1 rounded-lg p-3">
         <div className="flex h-min">
           <img src={coverSrc} className="w-[64px] h-[64px] object-cover rounded-sm" />
           <div className="ml-2 flex flex-col">
@@ -68,9 +68,9 @@ export const SearchBar = () => {
 
   return (
     <div className="w-full flex justify-center mb-12">
-      <div className="flex-col justify-start items-center bg-slate-900 p-3 w-80 h-min rounded-2xl">
+      <div className="flex-col justify-start items-center border-1 p-3 w-80 h-min rounded-lg">
         <div className="w-full flex">
-          <FaSearch className="ml-2 mr-4 text-slate-600 text-xl" />
+          <FaSearch className="ml-2 mr-4 text-xl" />
           <input
             type="text"
             id="name"
@@ -78,7 +78,7 @@ export const SearchBar = () => {
             size="10"
             placeholder="Search for anything..."
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full focus:outline-none placeholder:text-slate-600" />
+            className="w-full focus:outline-none placeholder:text-gray-500" />
         </div>
         {searchResults.length > 0 &&
           <div className="mt-4 flex flex-col gap-1">

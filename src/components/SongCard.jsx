@@ -6,12 +6,12 @@ export const SongCard = ({
 }) => {
 
   return (
-    <div className="bg-gradient-to-b from-black to-slate-900 h-fit w-fit rounded-xl text-white p-2 cursor-pointer transition-shadow duration-100 hover:shadow-2xl hover:shadow-slate-500/50">
+    <div className="border-1 h-fit w-fit rounded-xl text-white p-2 cursor-pointer transition-shadow duration-100 hover:shadow-2xl hover:shadow-white/50">
       {coverSrc
         ?
         <img
           src={coverSrc}
-          className="w-40 aspect-square object-cover mb-1" />
+          className="w-40 aspect-square object-cover mb-1 rounded-sm" />
         :
         <div className="w-40 bg-gray-600 aspect-square mb-1 flex items-center justify-center">
           <FaMusic className="text-3xl text-gray-800" />

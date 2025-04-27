@@ -10,8 +10,8 @@ export const ReviewCard = ({ username, rating, content }) => {
     : (<span className="mt-5 text-sm flex items-center"><FaRegHeart className="mr-2 text-lg" /> Like this review</span>);
 
   return (
-    <div className="outline-3 outline-gray-800 text-white w-fit max-w-125 h-fit p-4 rounded-lg flex flex-col">
-      <span className="flex mb-5">
+    <div className="outline-1 outline-white text-white w-fit max-w-125 h-fit p-4 rounded-lg flex flex-col">
+      <span className="flex mb-5 items-center">
         <span className="text-gray-500">
           Review by <span className="ml-1 font-bold text-gray-200">{username}</span>
         </span>
@@ -20,7 +20,7 @@ export const ReviewCard = ({ username, rating, content }) => {
         </span>
       </span>
 
-      <span className="text-sm text-gray-300">
+      <span className="text-sm">
         {content}
       </span>
 

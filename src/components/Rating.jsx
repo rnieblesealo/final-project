@@ -37,7 +37,7 @@ export const Rating = ({ rating, size }) => {
       )
 
       return (
-        <div className={`${finalSize} flex items-center justify-left pb-2 text-white w-full h-full`}>
+        <div className={`${finalSize} flex items-center justify-left text-white w-full h-full`}>
           {stars}
         </div>
       )
