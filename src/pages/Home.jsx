@@ -1,6 +1,8 @@
 import { SongCard } from "../components/SongCard";
 import sampleSong from "../data/sample-song.json"
 
+import { useState, useEffect } from "react"
+
 export const Home = () => {
   return (
     <div className="px-10">
