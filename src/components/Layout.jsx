@@ -25,12 +25,10 @@ export const Layout = () => {
     async function loadSessionData() {
       // get all session data
       const { user: sessionData } = await getSession()
-      console.log(sessionData)
       setSessionData(sessionData)
 
       // get more specific user metadata
       const { user_metadata: userMetadata } = sessionData
-      console.log(userMetadata)
       setUserMetadata(userMetadata)
     }
 
@@ -50,7 +48,7 @@ export const Layout = () => {
   return (
     <div className="w-screen h-screen text-white">
       <div className="w-full flex justify-center items-center relative">
-        <h1 className="relative w-full text-white text-4xl text-center font-extrabold m-6">Home</h1>
+        <h1 className="relative w-full text-white text-4xl text-center font-extrabold m-6">Tunecrate</h1>
 
         <div className="absolute flex items-center right-5">
           <span className="right-10 font-bold mr-2 text-gray-500">

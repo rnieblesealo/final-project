@@ -11,13 +11,13 @@ export const DetailView = () => {
 
   const [songData, setSongData] = useState(null)
   const [reviews, setReviews] = useState(null)
+  const [avgRating, setAvgRating] = useState(0)
 
   useEffect(() => {
     // load this song's info from spotify
     async function loadSongData() {
       // get song id
       const songId = params.songId
-      console.log(songId)
       if (!songId) {
         return
       }
@@ -52,7 +52,24 @@ export const DetailView = () => {
         return
       }
 
+      // load review data
       setReviews(data)
+
+      // compute the avg rating and set it
+      setAvgRating(() => {
+        // compute avg rating
+        if (data.length === 0) {
+          return 0; // No reviews, average is 0
+        }
+
+        const totalRating = data.reduce((sum, review) => {
+          return sum + (review.rating || 0); // safety: if review.rating is missing, treat as 0
+        }, 0);
+
+        const averageRating = totalRating / data.length;
+
+        return Math.round(averageRating);
+      })
     }
 
     loadReviews()
@@ -67,6 +84,7 @@ export const DetailView = () => {
 
   const reviewCards = reviews?.map((review) => (
     <ReviewCard
+      key={review.id}
       username={review.creator_username}
       rating={review.rating}
       content={review.review_text}
@@ -81,7 +99,7 @@ export const DetailView = () => {
         <span className="text-white text-4xl font-extrabold">{songData.trackName}</span>
         <span className="text-2xl text-gray-600">{songData.trackArtistName}</span>
         <span className="mt-4">
-          <Rating rating={5} size="md" />
+          <Rating rating={avgRating} size="md" />
         </span>
         <span className="self-end">
         </span>
