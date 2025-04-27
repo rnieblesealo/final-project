@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 
 export const ReviewCard = ({ reviewId, trackId, username, rating, content, editable }) => {
   const [liked, setLiked] = useState(false)
+  const [totalLikes, setTotalLikes] = useState(0)
   const [likeReloads, setLikeReloads] = useState(0)
 
   useEffect(() => {
@@ -28,6 +29,14 @@ export const ReviewCard = ({ reviewId, trackId, username, rating, content, edita
         .maybeSingle(); // Expect 0 or 1 result 
 
       setLiked(data ? true : false)
+
+      // count total likes
+      const { count } = await supabase
+        .from('likes')
+        .select('id', { count: 'exact', head: true }) // don't fetch rows, just count
+        .eq('review_id', reviewId);
+
+      setTotalLikes(count)
     }
 
     loadLikeState()
@@ -87,6 +96,7 @@ export const ReviewCard = ({ reviewId, trackId, username, rating, content, edita
       to={`/review/${trackId}/edit/${reviewId}`}
       className="mt-5 text-sm flex items-center">
       <FaEdit className="mr-2 text-lg" />
+      Edit
     </Link>
 
   return (
@@ -97,6 +107,9 @@ export const ReviewCard = ({ reviewId, trackId, username, rating, content, edita
         </span>
         <span className="ml-2">
           <Rating rating={rating} />
+        </span>
+        <span className="text-gray-500 flex items-center text-xs ml-2">
+          <FaHeart className="text-md mr-1" />{totalLikes}
         </span>
       </span>
 
