@@ -1,17 +1,20 @@
 import { FaMusic } from "react-icons/fa6";
 import { Rating } from "./Rating"
+import { Link } from "react-router-dom"
 
 export const SongCard = ({
-  name, artist, rating, ratingCount, coverSrc
+  trackId, name, artist, rating, ratingCount, coverSrc
 }) => {
 
   return (
-    <div className="border-1 h-fit w-fit rounded-xl text-white p-2 cursor-pointer transition-shadow duration-100 hover:shadow-2xl hover:shadow-white/50">
+    <Link
+      to={`/view/${trackId}`}
+      className="border-1 w-full rounded-xl text-white p-2 cursor-pointer transition-shadow duration-100 hover:shadow-2xl hover:shadow-white/50">
       {coverSrc
         ?
         <img
           src={coverSrc}
-          className="w-40 aspect-square object-cover mb-1 rounded-sm" />
+          className="w-full aspect-square object-cover mb-1 rounded-sm" />
         :
         <div className="w-40 bg-gray-600 aspect-square mb-1 flex items-center justify-center">
           <FaMusic className="text-3xl text-gray-800" />
@@ -30,7 +33,6 @@ export const SongCard = ({
           }
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
-

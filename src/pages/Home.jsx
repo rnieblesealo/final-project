@@ -28,13 +28,27 @@ export const Home = () => {
             album: { images: [, { url: trackImage }] }
           } = await getSpotifyTrack(trackId)
 
+          // count total reviews 
+          const { data: ratingsArray, count } = await supabase
+            .from('reviews')
+            .select('rating', { count: 'exact' }) // don't fetch rows, just count
+            .eq('review_track_id', trackId)
+
+          // get average rating
+          const averageRating = ratingsArray.length > 0
+            ? Math.round(ratingsArray.reduce((sum, row) => sum + row.rating, 0) / ratingsArray.length)
+            : 0
+
+          console.log(averageRating)
+
           return (
             <SongCard
               key={trackId}
+              trackId={trackId}
               name={trackName}
               artist={trackArtistName}
-              rating={0}
-              ratingCount={0}
+              rating={averageRating}
+              ratingCount={count}
               coverSrc={trackImage}
             />
           )
@@ -49,8 +63,10 @@ export const Home = () => {
 
 
   return (
-    <div className="px-10">
-      {songCards}
+    <div className="flex items-center justify-center">
+      <div className="px-10 grid grid-cols-2 w-1/2">
+        {songCards}
+      </div>
     </div>
   )
 }
