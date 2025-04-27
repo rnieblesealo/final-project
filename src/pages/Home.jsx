@@ -64,7 +64,7 @@ export const Home = () => {
 
   return (
     <div className="flex items-center justify-center">
-      <div className="px-10 grid grid-cols-2 w-1/2">
+      <div className="px-10 grid grid-cols-2 w-100 min-w-100">
         {songCards}
       </div>
     </div>
