@@ -3,12 +3,13 @@ import { ReviewCard } from "../components/ReviewCard";
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { getSpotifyTrack } from "../scripts/music-search"
-import { supabase } from "../scripts/client"
+import { supabase, getSession } from "../scripts/client"
 import { Link } from "react-router-dom"
 
 export const DetailView = () => {
   const params = useParams()
 
+  const [currentUserId, setCurrentUserId] = useState(null)
   const [songData, setSongData] = useState(null)
   const [reviews, setReviews] = useState(null)
   const [avgRating, setAvgRating] = useState(0)
@@ -73,11 +74,26 @@ export const DetailView = () => {
     }
 
     loadReviews()
+
+    // load uid as well 
+    async function loadUid() {
+      const session = await getSession()
+      if (!session) {
+        return
+      }
+
+      setCurrentUserId(() => {
+        const { user: { id: sessionUid } } = session
+        return sessionUid
+      })
+    }
+
+    loadUid()
   }, [params.songId])
 
   const reviewButton = songData &&
     <Link
-      to={`/createreview/${songData.trackId}`}
+      to={`/review/${songData.trackId}/create`}
       className="bg-blue-600 w-40 text-center px-3 py-2 mt-5 rounded-lg font-bold">
       Review this song
     </Link>
@@ -85,9 +101,12 @@ export const DetailView = () => {
   const reviewCards = reviews?.map((review) => (
     <ReviewCard
       key={review.id}
+      reviewId={review.id}
+      trackId={review.review_track_id}
       username={review.creator_username}
       rating={review.rating}
       content={review.review_text}
+      editable={currentUserId === review.creator_id} // make editable if we created it
     />
   ))
 
@@ -106,7 +125,6 @@ export const DetailView = () => {
         {reviewButton}
       </div>
     </div>
-
 
   return (
     <div className="px-10 flex flex-col">

@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams, useLocation, useNavigate } from "react-router-dom"
 import { getSpotifyTrack } from "../scripts/music-search"
 import { supabase, getSession } from "../scripts/client"
 import { Rating } from "../components/Rating"
 
 export const CreateReview = () => {
   const params = useParams()
+  const location = useLocation()
   const navigate = useNavigate()
 
+  const isEditing = location.pathname.includes("/edit/")
+
   const [songData, setSongData] = useState(null)
-  const [reviewText, setReviewText] = useState("")
   const [cursorRating, setCursorPercent] = useState(null)
+  const [reviewText, setReviewText] = useState("")
 
   useEffect(() => {
     async function loadSongData() {
@@ -92,8 +95,39 @@ export const CreateReview = () => {
     }
   }
 
-  // FIXME: rating div is extremely chopped, fix absolute positioning
-  //
+  async function handleEditPost() {
+    // get session
+    const session = await getSession()
+    if (!session) {
+      console.error("No session")
+      return
+    }
+
+    // from session info get username and id
+    const { user: { id: userId } } = session
+
+    console.log("UPDATE CRED: ", params.reviewId, userId, songData?.trackId)
+
+    // write to review table!
+    const { data, error } = await supabase
+      .from("reviews")
+      .update({
+        rating: cursorRating,
+        review_text: reviewText,
+        review_track_id: songData?.trackId
+      })
+      .match({ id: params.reviewId, creator_id: userId, review_track_id: songData?.trackId })
+      .select()
+
+    // if successful navigate to song detail view
+    if (error) {
+      console.error("Insert error: ", error)
+    } else {
+      console.log("Successfully edited review: ", data)
+      navigate(`/view/${songData?.trackId}`)
+    }
+  }
+
   // note the rating box needs a fixed size because we're calculating the position of the cursor from it
   const reviewOptions = songData &&
     <div className="flex flex-col items-center">
@@ -121,9 +155,9 @@ export const CreateReview = () => {
       />
 
       <button
-        onClick={handleCreatePost}
+        onClick={isEditing ? handleEditPost : handleCreatePost}
         className="bg-green-700 w-40 p-4 mt-5 rounded-lg font-bold cursor-pointer">
-        Post!
+        {isEditing ? "Edit" : "Post"}
       </button>
 
     </div>
