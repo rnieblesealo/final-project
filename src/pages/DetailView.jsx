@@ -3,14 +3,17 @@ import { ReviewCard } from "../components/ReviewCard";
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { getSpotifyTrack } from "../scripts/music-search"
+import { supabase } from "../scripts/client"
 import { Link } from "react-router-dom"
 
 export const DetailView = () => {
   const params = useParams()
 
   const [songData, setSongData] = useState(null)
+  const [reviews, setReviews] = useState(null)
 
   useEffect(() => {
+    // load this song's info from spotify
     async function loadSongData() {
       // get song id
       const songId = params.songId
@@ -36,6 +39,23 @@ export const DetailView = () => {
     }
 
     loadSongData()
+
+    // then load its reviews, made for a matching track id
+    async function loadReviews() {
+      const { data, error } = await supabase
+        .from('reviews')
+        .select('*') // fetch all columns
+        .eq('review_track_id', params.songId) // where review_track_id matches
+
+      if (!data) {
+        console.error(error)
+        return
+      }
+
+      setReviews(data)
+    }
+
+    loadReviews()
   }, [params.songId])
 
   const reviewButton = songData &&
@@ -44,6 +64,14 @@ export const DetailView = () => {
       className="bg-blue-600 w-40 text-center px-3 py-2 mt-5 rounded-lg font-bold">
       Review this song
     </Link>
+
+  const reviewCards = reviews?.map((review) => (
+    <ReviewCard
+      username={review.creator_username}
+      rating={review.rating}
+      content={review.review_text}
+    />
+  ))
 
   const songInfoCard = songData &&
     <div className="flex">
@@ -64,17 +92,11 @@ export const DetailView = () => {
 
   return (
     <div className="px-10 flex flex-col">
-
       {songInfoCard}
 
-      <div className="py-6">
-        <ReviewCard
-          username="rnieblesealo"
-          rating={10}
-          content='"Gravity Bong" by Meth Wax is the perfect soundtrack for zoning out. With its fuzzed-out guitars and dreamy, hypnotic rhythms, it feels like being enveloped in a cloud of smoke. The track has a loose, almost unhurried vibe, drawing you in with its heavy bassline and raw, gritty vocals. It’s a slow, psychedelic journey that doesn’t rush but builds effortlessly. Themes of escape and indulgence run through the lyrics, resonating deeply. It’s not just a song—it’s a mood, a vibe, a trip. Perfect for anyone looking to get lost in a haze of sound'
-        />
+      <div className="py-6 flex flex-col items-center justify-center gap-3">
+        {reviewCards}
       </div>
-
     </div>
   )
 }

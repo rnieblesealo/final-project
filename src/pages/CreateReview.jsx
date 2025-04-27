@@ -1,15 +1,16 @@
-import { useState, useRef, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { useParams, useNavigate } from "react-router-dom"
 import { getSpotifyTrack } from "../scripts/music-search"
-import { FaStar, FaStarHalf } from "react-icons/fa";
+import { supabase, getSession } from "../scripts/client"
 import { Rating } from "../components/Rating"
 
 export const CreateReview = () => {
   const params = useParams()
+  const navigate = useNavigate()
 
   const [songData, setSongData] = useState(null)
-  const [reviewData, setReviewData] = useState(null)
-  const [cursorPercent, setCursorPercent] = useState(null)
+  const [reviewText, setReviewText] = useState("")
+  const [cursorRating, setCursorPercent] = useState(null)
 
   useEffect(() => {
     async function loadSongData() {
@@ -35,15 +36,10 @@ export const CreateReview = () => {
         trackArtistName,
         trackImage
       })
-
-      // also update review data to include track id
-      setReviewData((prev) => {
-        return { ...prev, trackId }
-      })
     }
 
     loadSongData()
-  }, [params.songId, cursorPercent])
+  }, [params.songId, cursorRating])
 
   // compute rating based on mouse position within stars rect
   function handleMouseMove(e) {
@@ -63,22 +59,37 @@ export const CreateReview = () => {
 
     // update your state
     setCursorPercent(rating);
-
-    // update review data as well
-    setReviewData((prev) => {
-      return { ...prev, rating }
-    })
   }
 
-  function handleTextChange(e) {
-    setReviewData((prev) => {
-      return { ...prev, reviewText: e.target.value }
-    })
-  }
-
-  function handleCreatePost() {
+  async function handleCreatePost() {
     // get session
-    // once we have session pull necessary info from it (uid, display name)
+    const session = await getSession()
+    if (!session) {
+      console.error("No session")
+      return
+    }
+
+    // from session info get username and id
+    const { user: { id: userId, user_metadata: { username: userName } } } = session
+
+    // write to review table!
+    const { error } = await supabase
+      .from("reviews")
+      .insert({
+        creator_id: userId,
+        creator_username: userName,
+        rating: cursorRating,
+        review_text: reviewText,
+        review_track_id: songData?.trackId
+      })
+
+    // if successful navigate to song detail view
+    if (error) {
+      console.error("Insert error: ", error)
+    } else {
+      console.log("Successfully entered review!")
+      navigate(`/view/${songData?.trackId}`)
+    }
   }
 
   // FIXME: rating div is extremely chopped, fix absolute positioning
@@ -99,19 +110,19 @@ export const CreateReview = () => {
         <div
           onMouseMove={handleMouseMove}
           className="text-4xl w-[180px] h-[50px] flex items-center">
-          <Rating rating={cursorPercent} />
+          <Rating rating={cursorRating} />
         </div>
       </div>
 
       <textarea
-        onChange={handleTextChange}
+        onChange={(e) => setReviewText(e.target.value)}
         placeholder="Write your review here..."
         className="w-3/4 h-48 p-4 rounded-xl text-white text-lg resize-none overflow-y-auto outline-1 focus:outline-3"
       />
 
       <button
-        to={`/createreview/${songData.trackId}`}
-        className="bg-green-700 w-40 p-4 mt-5 rounded-lg font-bold">
+        onClick={handleCreatePost}
+        className="bg-green-700 w-40 p-4 mt-5 rounded-lg font-bold cursor-pointer">
         Post!
       </button>
 
