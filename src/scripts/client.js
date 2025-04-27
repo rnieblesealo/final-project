@@ -20,10 +20,15 @@ export async function handleSignIn(email, password) {
   }
 }
 
-export async function handleSignUp(email, password) {
+export async function handleSignUp(email, password, username) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      data: {
+        username // include username in supabase user metadata
+      }
+    }
   });
 
   if (error) {

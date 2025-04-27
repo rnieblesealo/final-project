@@ -10,6 +10,7 @@ import { handleSignIn, handleSignUp, getSession } from "../scripts/client"
 export const SignIn = () => {
   const navigate = useNavigate()
 
+  const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [shouldSignUp, setShouldSignUp] = useState(false)
@@ -24,7 +25,7 @@ export const SignIn = () => {
       // sign up
       // if successful try sign in
       // if signin successful go to homepage
-      const signUp = await handleSignUp(email, password)
+      const signUp = await handleSignUp(email, password, username)
       if (signUp) {
         const signIn = await handleSignIn(email, password)
         if (signIn) {
@@ -35,7 +36,6 @@ export const SignIn = () => {
     } else {
       const signIn = await handleSignIn(email, password)
       if (signIn) {
-        console.log("HERERE")
         navigate("/")
       }
     }
@@ -57,8 +57,8 @@ export const SignIn = () => {
             <input
               type="text"
               id="username"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               placeholder="Username"
               className="focus:outline-0 placeholder:text-gray-600"
             />

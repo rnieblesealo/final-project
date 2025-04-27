@@ -1,11 +1,14 @@
 import { Outlet } from "react-router-dom"
 import { SearchBar } from "./SearchBar";
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
 import { getSession, signOutUser } from "../scripts/client"
 import { useNavigate } from "react-router-dom"
 
 export const Layout = () => {
   const navigate = useNavigate()
+
+  const [sessionData, setSessionData] = useState(null)
+  const [userMetadata, setUserMetadata] = useState(null)
 
   useEffect(() => {
     // user will always land here
@@ -18,6 +21,22 @@ export const Layout = () => {
     }
 
     redirectIfNotSignedIn()
+
+    async function loadSessionData() {
+      // get all session data
+      const { user: sessionData } = await getSession()
+      console.log(sessionData)
+      setSessionData(sessionData)
+
+      // get more specific user metadata
+      const { user_metadata: userMetadata } = sessionData
+      console.log(userMetadata)
+      setUserMetadata(userMetadata)
+    }
+
+    // if we do sign in, pull username from session info and set it
+    loadSessionData()
+
   }, [navigate])
 
   // if user clicks sign out theyre signed out and taken back to signin screen
@@ -36,7 +55,7 @@ export const Layout = () => {
         <div className="absolute flex items-center right-5">
           <span className="right-10 font-bold mr-2 text-gray-500">
             Logged in as
-            <span className="text-white mx-1">rnieblesealo</span>
+            <span className="text-white mx-1">{userMetadata?.username}</span>
           </span>
           <button
             onClick={handleSignOut}
