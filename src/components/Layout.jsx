@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom"
 import { SearchBar } from "./SearchBar";
 import { FaHouse } from "react-icons/fa6";
 import { Link } from "react-router-dom"
+import { MdLibraryMusic } from "react-icons/md";
 import { useState, useEffect } from "react"
 import { getSession, signOutUser } from "../scripts/client"
 import { useNavigate } from "react-router-dom"
@@ -9,7 +10,6 @@ import { useNavigate } from "react-router-dom"
 export const Layout = () => {
   const navigate = useNavigate()
 
-  const [sessionData, setSessionData] = useState(null)
   const [userMetadata, setUserMetadata] = useState(null)
 
   useEffect(() => {
@@ -27,7 +27,6 @@ export const Layout = () => {
     async function loadSessionData() {
       // get all session data
       const { user: sessionData } = await getSession()
-      setSessionData(sessionData)
 
       // get more specific user metadata
       const { user_metadata: userMetadata } = sessionData
@@ -50,7 +49,7 @@ export const Layout = () => {
   return (
     <div className="w-full h-min text-white mb-12">
       <div className="w-full flex flex-col justify-center items-center relative">
-        <h1 className="relative w-full text-white text-4xl text-center font-extrabold mt-4">Tunecrate</h1>
+        <h1 className="relative w-min text-white text-4xl text-center font-extrabold flex items-center mt-4 mb-1"><MdLibraryMusic className="mr-2" /> Tunecrate</h1>
 
         <div className="relative flex items-center mt-1 mb-2 text-xs">
           <span className="text-gray-500">
