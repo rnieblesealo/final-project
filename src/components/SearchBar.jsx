@@ -51,7 +51,7 @@ export const SearchBar = () => {
     return (
       <button
         onClick={handleClick}
-        className="w-full h-min border-1 rounded-lg p-3 cursor-pointer text-left">
+        className="w-full h-min rounded-lg p-3 cursor-pointer text-left">
         <div className="flex h-min">
           <img src={coverSrc} className="w-[64px] h-[64px] object-cover rounded-sm" />
           <div className="ml-2 flex flex-col">
@@ -75,9 +75,9 @@ export const SearchBar = () => {
 
   return (
     <div className="w-full flex justify-center">
-      <div className="flex-col justify-start items-center border-1 p-3 w-80 h-min rounded-lg mb-4">
+      <div className="flex-col justify-start items-center bg-gray-950 p-3 w-80 h-min rounded-lg mb-4">
         <div className="w-full flex">
-          <FaSearch className="ml-2 mr-4 text-xl" />
+          <FaSearch className="ml-2 mr-4 text-xl text-gray-500" />
           <input
             type="text"
             id="name"

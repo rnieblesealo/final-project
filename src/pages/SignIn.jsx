@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { MdLibraryMusic } from "react-icons/md";
 
 import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
@@ -43,9 +44,13 @@ export const SignIn = () => {
 
   return (
     <div className="w-screen h-screen text-white flex flex-col justify-center items-center">
+      <div className="flex flex-col items-center m-4">
+        <h1 className="relative w-min text-white text-4xl text-center font-extrabold flex items-center"><MdLibraryMusic className="mr-2" /> Tunecrate</h1>
+        <span className="text-gray-500">Share your music</span>
+      </div>
 
       <form onSubmit={handleSubmit} className="w-min h-min flex items-center justify-center flex-col gap-4">
-        <span className="text-3xl font-bold m-4">
+        <span className="text-2xl font-bold m-4">
           {shouldSignUp ? "Sign Up" : "Sign In"}
         </span>
 
@@ -93,7 +98,9 @@ export const SignIn = () => {
           />
         </div>
 
-        <button type="submit" />
+        <button className="px-3 py-1 bg-white text-black rounded-lg font-bold cursor-pointer mt-2" type="submit">
+          {shouldSignUp ? "Sign Up" : "Sign In"}
+        </button>
       </form>
 
       <button

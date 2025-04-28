@@ -3,7 +3,7 @@ import { FaStar, FaStarHalf } from "react-icons/fa";
 import PropTypes from 'prop-types';
 import clsx from "clsx"
 
-export const Rating = ({ rating, size }) => {
+export const Rating = ({ rating, size, dim }) => {
   const [stars, setStars] = useState(null);
 
   useEffect(() => {
@@ -36,13 +36,17 @@ export const Rating = ({ rating, size }) => {
         !size && "text-md" // WARN: is this even a thing? oh well it works!
       )
 
+      const color = clsx(
+        dim ? "text-gray-800" : "text-white"
+      )
+
       return (
-        <div className={`${finalSize} flex items-center justify-left text-white w-min h-full`}>
+        <div className={`${finalSize} flex items-center justify-left ${color} w-min h-full`}>
           {stars}
         </div>
       )
     });
-  }, [rating, size]);
+  }, [dim, rating, size]);
 
   return stars ?? <span className="text-sm">(No ratings)</span>
 }

@@ -135,7 +135,6 @@ export const CreateReview = () => {
 
       <div className="w-full flex flex-col items-center my-8">
         <span className="text-2xl font-extrabold text-gray-500">
-          Review
           <span className="text-white mx-2">{songData.trackName}</span>
           by
           <span className="text-white mx-2">{songData.trackArtistName}</span>
@@ -143,8 +142,13 @@ export const CreateReview = () => {
 
         <div
           onMouseMove={handleMouseMove}
-          className="text-4xl w-[180px] h-[50px] flex items-center">
-          <Rating rating={cursorRating} />
+          className="text-4xl w-[180px] h-[50px] mt-3 flex items-center">
+          <div className="absolute z-2">
+            <Rating rating={10} dim />
+          </div>
+          <div className="relative z-3">
+            <Rating rating={cursorRating > 0 ? cursorRating : 1 /* min rating 1 */} />
+          </div>
         </div>
       </div>
 

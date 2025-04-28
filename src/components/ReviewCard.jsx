@@ -118,9 +118,9 @@ export const ReviewCard = ({ reviewId, trackId, username, rating, content, edita
     </button>
 
   return (
-    <div className="outline-1 outline-white text-white p-4 rounded-lg flex flex-col w-full h-min">
+    <div className="bg-gray-950 outline-white text-white p-4 rounded-lg flex flex-col w-full h-min">
       <span className="flex mb-5 items-center">
-        <span className="text-gray-500">
+        <span className="text-gray-500 text-xs">
           Review by <span className="ml-1 font-bold text-gray-200">{username}</span>
         </span>
         <span className="ml-2">

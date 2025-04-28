@@ -55,8 +55,17 @@ export const DetailView = () => {
         return
       }
 
-      // load review data
-      setReviews(data)
+      // sort so that our own reviews are at top
+      const sortedReviews = data.sort((a, b) => {
+        if (a.creator_id === currentUserId && b.creator_id !== currentUserId) return -1;
+        if (a.creator_id !== currentUserId && b.creator_id === currentUserId) return 1;
+        return 0;
+      });
+
+      console.log(sortedReviews)
+
+      // load sorted review data
+      setReviews(sortedReviews)
 
       // compute the avg rating and set it
       setAvgRating(() => {
@@ -91,12 +100,12 @@ export const DetailView = () => {
     }
 
     loadUid()
-  }, [params.songId, reloads])
+  }, [currentUserId, params.songId, reloads])
 
   const reviewButton = songData &&
     <Link
       to={`/review/${songData.trackId}/create`}
-      className="bg-blue-600 w-40 text-center px-3 py-2 mt-5 rounded-lg font-bold">
+      className="bg-orange-700 w-40 text-center px-3 py-2 mt-5 rounded-lg font-bold">
       Review this song
     </Link>
 
@@ -130,7 +139,7 @@ export const DetailView = () => {
     </div>
 
   return (
-    <div className="w-full flex flex-col items-center justify-center h-min">
+    <div className="w-full h-full flex flex-col items-center justify-center">
       <h1 className="text-white text-3xl text-center font-extrabold mb-4">View Song</h1>
       <div className="px-10 w-130 flex flex-col">
         {songInfoCard}

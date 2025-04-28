@@ -48,27 +48,27 @@ export const Layout = () => {
   }
 
   return (
-    <div className="w-screen h-screen text-white">
+    <div className="w-full h-min text-white mb-12">
       <div className="w-full flex flex-col justify-center items-center relative">
         <h1 className="relative w-full text-white text-4xl text-center font-extrabold mt-4">Tunecrate</h1>
 
-        <Link
-          to="/"
-          className="flex items-center font-bold my-4 bg-white text-black rounded-lg p-2 text-sm">
-          <FaHouse className="mr-1" />Home
-        </Link>
-
-        <div className="relative flex items-center mb-4 text-xs">
-          <span className="font-bold text-gray-500">
+        <div className="relative flex items-center mt-1 mb-2 text-xs">
+          <span className="text-gray-500">
             Logged in as
-            <span className="text-white mx-1">{userMetadata?.username}</span>
+            <span className="font-bold text-white mx-1">{userMetadata?.username}</span>
           </span>
           <button
             onClick={handleSignOut}
-            className="bg-red-700 font-bold rounded-lg px-2 py-1 cursor-pointer ml-1">
+            className="outline-1 outline-red-700 text-red-700 font-bold rounded-lg px-2 py-1 cursor-pointer ml-1">
             Sign Out
           </button>
         </div>
+
+        <Link
+          to="/"
+          className="outline-1 flex items-center font-bold my-4 text-white rounded-lg p-2 text-sm">
+          <FaHouse className="mr-1" />Home
+        </Link>
 
       </div>
       <SearchBar />

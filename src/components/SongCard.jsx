@@ -8,7 +8,7 @@ export const SongCard = ({
   return (
     <Link
       to={`/view/${trackId}`}
-      className="border-1 w-full h-full rounded-xl text-white p-2 cursor-pointer transition-shadow duration-100 hover:shadow-2xl hover:shadow-white/50">
+      className="bg-gray-950 w-full h-full rounded-xl text-white p-2 cursor-pointer transition-shadow duration-200 shadow-2xl shadow-white/10 hover:shadow-2xl hover:shadow-white/30">
       {coverSrc
         ?
         <img
@@ -29,7 +29,7 @@ export const SongCard = ({
             <span className="ml-1 text-xs font-bold">{rating > 0 && (rating / 2).toFixed(1)}</span>
           </div>
           {ratingCount &&
-            <span className="my-1 text-xs text-gray-400 py-1 rounded-2xl bg-black">
+            <span className="my-1 text-xs text-gray-400 py-1 rounded-2xl">
               {ratingCount} review(s)
             </span>
           }
