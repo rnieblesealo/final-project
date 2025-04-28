@@ -133,7 +133,7 @@ export const CreateReview = () => {
     <div className="flex flex-col items-center">
       <img src={songData.trackImage} className="w-60 rounded-lg" />
 
-      <div className="w-full flex flex-col items-center my-8">
+      <div className="w-full flex flex-col items-center text-center my-8">
         <span className="text-2xl font-extrabold text-gray-500">
           <span className="text-white mx-2">{songData.trackName}</span>
           by
