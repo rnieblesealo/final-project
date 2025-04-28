@@ -14,6 +14,8 @@ export const DetailView = () => {
   const [reviews, setReviews] = useState(null)
   const [avgRating, setAvgRating] = useState(0)
 
+  const [reloads, setReloads] = useState(0)
+
   useEffect(() => {
     // load this song's info from spotify
     async function loadSongData() {
@@ -89,7 +91,7 @@ export const DetailView = () => {
     }
 
     loadUid()
-  }, [params.songId])
+  }, [params.songId, reloads])
 
   const reviewButton = songData &&
     <Link
@@ -107,31 +109,34 @@ export const DetailView = () => {
       rating={review.rating}
       content={review.review_text}
       editable={currentUserId === review.creator_id} // make editable if we created it
+      parentReloads={reloads}
+      setParentReloads={setReloads}
     />
   ))
 
   const songInfoCard = songData &&
-    <div className="flex">
+    <div className="flex justify-center">
       <img src={songData.trackImage} className="w-60 rounded-lg" />
 
       <div className="ml-5 flex flex-col h-min">
-        <span className="text-white text-4xl font-extrabold">{songData.trackName}</span>
-        <span className="text-2xl text-gray-600">{songData.trackArtistName}</span>
-        <span className="mt-4">
+        <span className="text-white text-2xl font-extrabold">{songData.trackName}</span>
+        <span className="text-xl text-gray-600">{songData.trackArtistName}</span>
+        <span className="mt-4 flex items-center">
           <Rating rating={avgRating} size="md" />
-        </span>
-        <span className="self-end">
+          <span className="text-lg ml-1">{Math.round(avgRating / 2).toFixed(1)}</span>
         </span>
         {reviewButton}
       </div>
     </div>
 
   return (
-    <div className="px-10 flex flex-col">
-      {songInfoCard}
-
-      <div className="py-6 flex flex-col items-center justify-center gap-3">
-        {reviewCards}
+    <div className="w-full flex flex-col items-center justify-center h-min">
+      <h1 className="text-white text-3xl text-center font-extrabold mb-4">View Song</h1>
+      <div className="px-10 w-130 flex flex-col">
+        {songInfoCard}
+        <div className="py-6 flex flex-col items-center justify-center gap-3">
+          {reviewCards}
+        </div>
       </div>
     </div>
   )

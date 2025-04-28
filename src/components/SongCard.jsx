@@ -26,11 +26,11 @@ export const SongCard = ({
         <div className="flex flex-col my-1 items-start justify-center">
           <div className="flex items-center">
             <Rating rating={rating} />
-            <span className="ml-1 text-xs font-bold">{rating > 0 && (rating / 2)}</span>
+            <span className="ml-1 text-xs font-bold">{rating > 0 && (rating / 2).toFixed(1)}</span>
           </div>
           {ratingCount &&
             <span className="my-1 text-xs text-gray-400 py-1 rounded-2xl bg-black">
-              {ratingCount.toLocaleString()} review(s)
+              {ratingCount} review(s)
             </span>
           }
         </div>

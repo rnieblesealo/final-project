@@ -1,13 +1,13 @@
-import { FaHeart, FaRegHeart, FaEdit } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom"
 import { Rating } from "../components/Rating";
 import { supabase, getSession } from "../scripts/client"
 import { useState, useEffect } from "react"
 
-export const ReviewCard = ({ reviewId, trackId, username, rating, content, editable }) => {
+export const ReviewCard = ({ reviewId, trackId, username, rating, content, editable, parentReloads, setParentReloads }) => {
   const [liked, setLiked] = useState(false)
   const [totalLikes, setTotalLikes] = useState(0)
-  const [likeReloads, setLikeReloads] = useState(0)
+  const [reloads, setReloads] = useState(0)
 
   useEffect(() => {
     async function loadLikeState() {
@@ -40,7 +40,7 @@ export const ReviewCard = ({ reviewId, trackId, username, rating, content, edita
     }
 
     loadLikeState()
-  }, [reviewId, likeReloads])
+  }, [reviewId, reloads])
 
   async function handleLike() {
     const session = await getSession()
@@ -80,16 +80,26 @@ export const ReviewCard = ({ reviewId, trackId, username, rating, content, edita
     }
 
     // mark update
-    setLikeReloads(likeReloads + 1)
+    setReloads(reloads + 1)
+  }
+
+  async function handleDelete() {
+    await supabase
+      .from('reviews')
+      .delete()
+      .eq('id', reviewId);
+
+    // mark update in parent
+    setParentReloads(parentReloads + 1)
   }
 
   const likeButton =
     <button
       onClick={handleLike}
-      className="mt-5 text-sm flex items-center">
+      className="mt-5 text-sm flex items-center cursor-pointer">
       {liked ? <FaHeart className="mr-2 text-lg text-red-500" /> : <FaRegHeart className="mr-2 text-lg" />}
       <span>{liked ? "You liked this review" : "Like review"}</span>
-    </button>;
+    </button>
 
   const editButton = editable &&
     <Link
@@ -98,6 +108,14 @@ export const ReviewCard = ({ reviewId, trackId, username, rating, content, edita
       <FaEdit className="mr-2 text-lg" />
       Edit
     </Link>
+
+  const deleteButton = editable &&
+    <button
+      onClick={handleDelete}
+      className="mt-5 text-sm flex items-center cursor-pointer">
+      <FaTrash className="mr-2 text-lg" />
+      <span>Delete</span>
+    </button>
 
   return (
     <div className="outline-1 outline-white text-white p-4 rounded-lg flex flex-col w-full h-min">
@@ -120,6 +138,7 @@ export const ReviewCard = ({ reviewId, trackId, username, rating, content, edita
       <div className="flex items-center gap-5">
         {likeButton}
         {editButton}
+        {deleteButton}
       </div>
     </div>
   );
